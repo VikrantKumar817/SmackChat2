@@ -1,5 +1,6 @@
 package com.example.smackchat
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -31,12 +32,15 @@ class MainActivity : AppCompatActivity() {
 
     fun loginbtnNavClicked(view: View) {
 
+        val loginIntent = Intent(this, loginactivity::class.java)
+        startActivity(loginIntent)
+
     }
 
     fun addchannelclicked(view: View){
 
     }
+    
     fun sendmsgbtnclicked(view: View){
-        
     }
 }
