@@ -21,23 +21,26 @@
     <EditText
         android:id="@+id/messagetext"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="    message"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/sendmsgbtn"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/sendmsgbtn"
-        android:layout_width="45dp"
-        android:layout_height="38dp"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
         android:onClick="sendmsgbtnclicked"
         android:tint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/messagetext"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_menu_send" />
 
     <androidx.recyclerview.widget.RecyclerView
