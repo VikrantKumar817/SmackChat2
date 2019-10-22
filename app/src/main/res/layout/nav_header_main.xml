@@ -59,8 +59,10 @@
         android:id="@+id/loginbtnNavHeader"
         android:layout_width="65dp"
         android:layout_height="43dp"
+        android:background="@color/colorPrimary"
         android:onClick="loginbtnNavClicked"
         android:text="LOGIN"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/userimageNavHeader" />
 

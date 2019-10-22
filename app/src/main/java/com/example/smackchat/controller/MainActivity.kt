@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-
     }
 
     fun loginbtnNavClicked(view: View) {
@@ -31,5 +30,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun sendmsgbtnclicked(view: View){
+
     }
 }
