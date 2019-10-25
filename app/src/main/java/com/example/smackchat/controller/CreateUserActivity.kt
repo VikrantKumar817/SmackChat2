@@ -16,7 +16,7 @@ import java.util.*
 
 class CreateUserActivity : AppCompatActivity() {
 
-    var useravatar = "dafaultprofile"
+    var useravatar = "profile"
     var avatarcolor = "[0.5,0.5,0.5,1]"
 
     override fun onCreate(savedInstanceState: Bundle?) {
