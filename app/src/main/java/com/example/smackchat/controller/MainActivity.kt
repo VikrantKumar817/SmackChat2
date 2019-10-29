@@ -15,11 +15,18 @@ import androidx.appcompat.app.AlertDialog
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.smackchat.R
 import com.example.smackchat.Utilities.BROADCAST_USER_DATA_CHANGE
+import com.example.smackchat.Utilities.SOCKET_URL
+import com.example.smackchat.model.channel
 import com.example.smackchat.services.AuthService
 import com.example.smackchat.services.UserDataService
+import com.example.smackchat.services.messageService
+import io.socket.client.IO
+import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    val socket = IO.socket(SOCKET_URL)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,20 +34,38 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        hidekeyboard()
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(UserDataChangeReciever,
-            IntentFilter(BROADCAST_USER_DATA_CHANGE))
+        socket.connect()
+        socket.on("channel created", onNewChannel )
     }
-    private val UserDataChangeReciever = object :BroadcastReceiver() {
+        override fun onResume() {
+            LocalBroadcastManager.getInstance(this).registerReceiver(
+                UserDataChangeReciever,
+                IntentFilter(BROADCAST_USER_DATA_CHANGE))
+          
+            super.onResume()
+        }
+
+    override fun onDestroy() {
+        socket.disconnect()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(UserDataChangeReciever)
+
+        super.onDestroy()
+    }
+
+
+    private val UserDataChangeReciever = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (AuthService.isLoggedIn){
+            if (AuthService.isLoggedIn) {
                 usernameNavHeader.text = UserDataService.name
                 userEmailNavHeader.text = UserDataService.email
-                val resourceId = resources.getIdentifier(UserDataService.avatarName, "drawable", packageName)
+                val resourceId =
+                    resources.getIdentifier(UserDataService.avatarName, "drawable", packageName)
                 userimageNavHeader.setImageResource(resourceId)
-                userimageNavHeader.setBackgroundColor(UserDataService.returnAvatarColor(UserDataService.avatarColor))
+                userimageNavHeader.setBackgroundColor(
+                    UserDataService.returnAvatarColor(
+                        UserDataService.avatarColor
+                    )
+                )
                 loginbtnNavHeader.text = "Logout"
 
             }
@@ -51,7 +76,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loginbtnNavClicked(view: View) {
-        if (AuthService.isLoggedIn){
+        if (AuthService.isLoggedIn) {
             UserDataService.logout()
             usernameNavHeader.text = ""
             userEmailNavHeader.text = ""
@@ -59,7 +84,7 @@ class MainActivity : AppCompatActivity() {
             userimageNavHeader.setBackgroundColor(Color.TRANSPARENT)
             loginbtnNavHeader.text = "Login"
 
-        } else{
+        } else {
 
             val loginIntent = Intent(this, loginactivity::class.java)
             startActivity(loginIntent)
@@ -70,35 +95,49 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun addchannelclicked(view: View){
+    fun addchannelclicked(view: View) {
 
-       if (AuthService.isLoggedIn){
+        if (AuthService.isLoggedIn) {
 
-           val builder = AlertDialog.Builder(this)
-           val dialogView = layoutInflater.inflate(R.layout.add_channel_dialog, null)
+            val builder = AlertDialog.Builder(this)
+            val dialogView = layoutInflater.inflate(R.layout.add_channel_dialog, null)
 
 
-           builder.setView(dialogView).setPositiveButton("add"){ dialogInterface, i ->
+            builder.setView(dialogView).setPositiveButton("add") { dialogInterface, i ->
 
-               hidekeyboard()
+                val nametextfield = dialogView.findViewById<EditText>(R.id.addchannelnametxt)
+                val desctextfield = dialogView.findViewById<EditText>(R.id.addchanneldesctxt)
+                val channelName = nametextfield.text.toString()
+                val channelDesc = desctextfield.text.toString()
 
-           }.setNegativeButton("cancel"){dialogInterface, i ->
+                socket.emit("newChannel", channelName, channelDesc)
 
-               hidekeyboard()
 
-               val nametextfield = dialogView.findViewById<EditText>(R.id.addchannelnametxt)
-               val desctextfield = dialogView.findViewById<EditText>(R.id.addchanneldesctxt)
-               val channelName = nametextfield.text.toString()
-               val channelDesc = desctextfield.text.toString()
+            }.setNegativeButton("cancel") { dialogInterface, i ->
 
-           }.show()
+
+
+            }.show()
 
 
         }
 
     }
 
-    fun sendmsgbtnclicked(view: View){
+      private val onNewChannel = Emitter.Listener { args ->
+          runOnUiThread {
+              val channelName = args[0] as String
+              val channelDescription = args[1] as String
+              val channeId = args[2] as String
+
+              val newChannel = channel(channelName, channelDescription, channeId)
+              messageService.channels.add(newChannel)
+          }
+
+      }
+
+    fun sendmsgbtnclicked(view: View) {
+        hidekeyboard()
 
     }
 
@@ -106,7 +145,8 @@ class MainActivity : AppCompatActivity() {
 
         val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        if (inputManager.isAcceptingText){
-            inputManager.hideSoftInputFromWindow(currentFocus?.windowToken , 0)
+        if (inputManager.isAcceptingText) {
+            inputManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
         }
+    }
 }
