@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
+import android.widget.BaseAdapter
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -22,11 +24,21 @@ import com.example.smackchat.services.UserDataService
 import com.example.smackchat.services.messageService
 import io.socket.client.IO
 import io.socket.emitter.Emitter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
+import java.nio.channels.Channel
 
 class MainActivity : AppCompatActivity() {
 
     val socket = IO.socket(SOCKET_URL)
+    lateinit var channelAdapter: ArrayAdapter<channel>
+
+    private fun setupAdapters(){
+        channelAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, messageService.channels)
+
+            channel_list.adapter = channelAdapter
+        }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             LocalBroadcastManager.getInstance(this).registerReceiver(
                 UserDataChangeReciever,
                 IntentFilter(BROADCAST_USER_DATA_CHANGE))
-          
+
             super.onResume()
         }
 
@@ -54,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private val UserDataChangeReciever = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
+        override fun onReceive(context: Context, intent: Intent) {
             if (AuthService.isLoggedIn) {
                 usernameNavHeader.text = UserDataService.name
                 userEmailNavHeader.text = UserDataService.email
@@ -67,6 +79,15 @@ class MainActivity : AppCompatActivity() {
                     )
                 )
                 loginbtnNavHeader.text = "Logout"
+
+                messageService.getchannels(context){complete->
+                    if (complete){
+                        channelAdapter.notifyDataSetChanged()
+                    }
+
+                }
+
+
 
             }
 
@@ -132,6 +153,7 @@ class MainActivity : AppCompatActivity() {
 
               val newChannel = channel(channelName, channelDescription, channeId)
               messageService.channels.add(newChannel)
+              channelAdapter.notifyDataSetChanged()
           }
 
       }
