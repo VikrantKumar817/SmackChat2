@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/messageuserimage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/light1" />
+
+    <TextView
+        android:id="@+id/messageusernamelbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/messageuserimage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Vikrant" />
+
+    <TextView
+        android:id="@+id/timestamplbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/messageusernamelbl"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Nov 06, 2:00 PM" />
+
+    <TextView
+        android:id="@+id/messagebodylbl"
+        android:layout_width="0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/messageuserimage"
+        app:layout_constraintTop_toBottomOf="@+id/timestamplbl"
+        app:layout_constraintVertical_bias="0.019"
+        tools:text="hjgklnatanne bera se mann bera e tu thodi si soche ghani se itna sochegi to kukar bat banegi kukar apna byah hoga chal eka kaam kar mere khatar apne gharwala ne samjale mnale waa manja to thk se naa ro nh bhajan ki taiyatri biyhae bhaaj k kith door chhip apahadan me javange ek balak higahojaga fw adaag" />
+</androidx.constraintlayout.widget.ConstraintLayout>
