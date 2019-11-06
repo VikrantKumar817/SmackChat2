@@ -1,6 +1,7 @@
 package com.example.smackchat.services
 
 import android.graphics.Color
+import com.example.smackchat.controller.App
 import java.util.*
 
 object UserDataService {
@@ -17,9 +18,11 @@ object UserDataService {
         avatarColor = ""
         email = ""
         name = ""
-        AuthService.authToken = ""
-        AuthService.userEmail = ""
-        AuthService.isLoggedIn = false
+        App.prefs.authToken = ""
+        App.prefs.userEmail = ""
+        App.prefs.isLoggedIn = false
+        messageService.clearMessages()
+        messageService.clearChannels()
 
     }
 

@@ -60,12 +60,12 @@ class CreateUserActivity : AppCompatActivity() {
         val password = createpasswordtxt.text.toString()
         if (userName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
 
-            AuthService.registerUser(this, email, password) { registerSuccess ->
+            AuthService.registerUser( email, password) { registerSuccess ->
                 if (registerSuccess) {
-                    AuthService.loginUser(this, email, password) { loginSuccess ->
+                    AuthService.loginUser( email, password) { loginSuccess ->
                         if (loginSuccess) {
                             AuthService.createuser(
-                                this,
+
                                 userName,
                                 email,
                                 useravatar,
