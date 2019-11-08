@@ -1,13 +1,15 @@
 package com.example.smackchat.Utilities
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.android.volley.toolbox.Volley
 import java.util.*
 
 class SharedPref (context: Context){
 
+
     val PREFS_FILENAME = "prefs"
-    val prefs = context.getSharedPreferences(PREFS_FILENAME, 0)
+    val prefs: SharedPreferences = context.getSharedPreferences(PREFS_FILENAME, 0)
 
     val IS_LOGGED_IN = "isLoggedIn"
     val AUTH_TOKEN = "authToken"
@@ -26,7 +28,5 @@ class SharedPref (context: Context){
         set(value) = prefs.edit().putString(USER_EMAIL, value).apply()
 
     val requestQueue = Volley.newRequestQueue(context)
-
-
 
 }

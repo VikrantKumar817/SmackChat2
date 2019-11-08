@@ -2,7 +2,7 @@ package com.example.smackchat.Utilities
 
 import java.net.URL
 
-const val BASE_URL = "https://chatachat.herokuapp.com/v1/"
+const val BASE_URL = "https://chatachat.herokuapp.com/"
 const val SOCKET_URL = "https://chatachat.herokuapp.com/"
 const val URL_REGISTER = "${BASE_URL}account/register"
 const val URL_LOGIN = "${BASE_URL}account/login"

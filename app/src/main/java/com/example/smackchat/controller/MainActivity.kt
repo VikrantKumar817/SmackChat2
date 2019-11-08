@@ -70,7 +70,6 @@ class MainActivity : AppCompatActivity() {
             drawer_layout.closeDrawer(GravityCompat.START)
 
 
-
         }
 
         if (App.prefs.isLoggedIn) {
