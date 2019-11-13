@@ -35,7 +35,7 @@ object AuthService {
                 complete(false)
             }) {
                 override fun getBodyContentType(): String {
-                    return "application/jason ; charset = utf-8"
+                    return "application/json ; charset = utf-8"
                 }
 
                 override fun getBody(): ByteArray {
@@ -72,7 +72,7 @@ object AuthService {
                 complete(false)
             }) {
                 override fun getBodyContentType(): String {
-                    return "application/jason ; charset = utf-8"
+                    return "application/json ; charset = utf-8"
                 }
 
                 override fun getBody(): ByteArray {
@@ -103,7 +103,7 @@ object AuthService {
                 UserDataService.email = response.getString("email")
                 UserDataService.avatarName = response.getString("avatarName")
                 UserDataService.avatarColor = response.getString("avatarColor")
-                UserDataService.id = response.getString("id")
+                UserDataService.id = response.getString("_id")
                 complete(true)
 
 
@@ -119,7 +119,7 @@ object AuthService {
 
             })
         { override fun getBodyContentType(): String {
-            return "application/jason ; charset = utf-8"
+            return "application/json ; charset = utf-8"
         }
 
             override fun getBody(): ByteArray {
@@ -144,7 +144,7 @@ object AuthService {
                 UserDataService.email = response.getString("email")
                 UserDataService.avatarName = response.getString("avatarName")
                 UserDataService.avatarColor = response.getString("avatarColor")
-                UserDataService.id = response.getString("id")
+                UserDataService.id = response.getString("_id")
 
                 val userDataChange = Intent(BROADCAST_USER_DATA_CHANGE)
                 LocalBroadcastManager.getInstance(context).sendBroadcast(userDataChange)
@@ -161,7 +161,7 @@ object AuthService {
         })
         {
             override fun getBodyContentType(): String {
-            return "application/jason ; charset = utf-8"
+            return "application/json ; charset = utf-8"
         }
 
             override fun getHeaders(): MutableMap<String, String> {
